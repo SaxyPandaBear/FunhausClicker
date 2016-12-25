@@ -3,4 +3,5 @@
     <string name="current">Current score: %1$d</string>
     <string name="main_text">Click on our amazing button to earn points!</string>
     <string name="high_score">Local high score: %1$d</string>
+    <string name="button_desc">Button for you to click on</string>
 </resources>
