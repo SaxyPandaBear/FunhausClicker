@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     int high_score; //what's the player's high score for clicks?
     TextView leaderboard, current; //initialize outside of onCreate for scope
 
+    //TODO: Figure out how to integrate SQL and network connection into this app.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 sb.append(Character.toString((char)c));
             }
             fis.close(); //close after we
-        }catch (FileNotFoundException e){
+        }catch (IOException e){
+            //encapsulates FileNotFoundException due to being a subtype of IOException
             high_score = 0;
         }
-        catch (IOException e){
-            high_score = 0;
-        }
+
 
         //now we have our file. it should be in the format:
         //"high score = %d"
@@ -108,15 +108,13 @@ public class MainActivity extends AppCompatActivity {
         FileOutputStream fos;
         try {
             fos = openFileOutput(filename, MODE_PRIVATE);
-            String writeMe = String.format(Locale.ENGLISH,"high score = %d",high_score);
+            String writeMe = String.format(Locale.US,"high score = %d",high_score);
             fos.write(writeMe.getBytes()); //writes the high score into local data
             fos.close();
         }
-        catch (FileNotFoundException e){
-            //caught from openFileOutput()
-        }
         catch (IOException e){
             //caught from write()
+            //catches FileNotFoundException as well
         }
 
     }
