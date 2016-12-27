@@ -10,13 +10,69 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.funhausclicker.saxypandabear.funhausclicker.LoginActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/banner"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:textColor="#000"/>
+    <LinearLayout
+        android:id="@+id/wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:text="@string/register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:textColor="#ff7f00"
+            android:id="@+id/register" />
+
+        <Button
+            android:text="@string/guest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:textColor="#ff7f00"
+            android:id="@+id/guest" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login"
+        android:text="@string/login"
+        android:textColor="#ff7f00"
+        android:textSize="20sp"
+        android:padding="16dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/username"/>
+        android:id="@+id/password"
+        android:text="@string/password"
+
+        android:layout_alignBottom="@+id/login"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username"
+        android:layout_marginBottom="61dp" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
-        android:id="@+id/password"/>
+        android:id="@+id/username"
+        android:text="@string/username"
+        android:layout_above="@+id/password"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

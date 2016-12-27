@@ -8,8 +8,11 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="password"></string>
-    <string name="username"></string>
-    <string name="register">Register your local account</string>
-    <string name="guest">Guest login</string>
+    <string name="banner">The Funhaus Clicker Game</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login">Log Me In</string>
+    <string name="register">Register Account</string>
+    <string name="guest">Guest Login</string>
+    <string name="remember">Remember Me</string>
 </resources>

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     //vars used throughout the app defined here for scope
     static boolean isGuest; //set when the user logs in through login activity
-    boolean hasLogged; //for notification alerts
+    boolean hasLogged; //for notification alerts?
     int session_clicks; //how many clicks do they have in this session?
     int high_score; //what's the player's high score for clicks?
     TextView leaderboard, current; //initialize outside of onCreate for scope
@@ -40,43 +40,52 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //check for saved instance
-        if (savedInstanceState != null){
-            //restore values saved earlier
-            session_clicks = savedInstanceState.getInt(LOCAL_SESSION);
-            high_score = savedInstanceState.getInt(LOCAL_HIGH_SCORE);
+
+        //first check if the player is a guest
+        if (isGuest){
+            //if so, we don't need to check for local data. there won't be any
+            //set values and move on.
+            high_score = 0;
+            session_clicks = 0;
         }
-        else {
-            //initialize our session
-            session_clicks = 0; //starts our game at score = 0
-        }
-        StringBuilder sb = new StringBuilder(); //to accept input from reading file
-        try{
-            //attempt to open local storage of our saved high score
-            FileInputStream fis = openFileInput(filename);
-            int c;
-            while ((c = fis.read()) != -1){
-                //read until -1, which indicates EOF
-                sb.append(Character.toString((char)c));
+        else{
+
+            //check for saved instance
+            if (savedInstanceState != null) {
+                //restore values saved earlier
+                session_clicks = savedInstanceState.getInt(LOCAL_SESSION);
+                high_score = savedInstanceState.getInt(LOCAL_HIGH_SCORE);
+            } else {
+                //initialize our session
+                session_clicks = 0; //starts our game at score = 0
             }
-            fis.close(); //close after we
-        }catch (IOException e){
-            //encapsulates FileNotFoundException due to being a subtype of IOException
-            high_score = 0;
-        }
+            StringBuilder sb = new StringBuilder(); //to accept input from reading file
+            try {
+                //attempt to open local storage of our saved high score
+                FileInputStream fis = openFileInput(filename);
+                int c;
+                while ((c = fis.read()) != -1) {
+                    //read until -1, which indicates EOF
+                    sb.append(Character.toString((char) c));
+                }
+                fis.close(); //close after we
+            } catch (IOException e) {
+                //encapsulates FileNotFoundException due to being a subtype of IOException
+                high_score = 0;
+            }
 
 
-        //now we have our file. it should be in the format:
-        //"high score = %d"
-        //do string manipulation to acquire the high score
-        //first check if the string is longer than 2. if not,then high score is 0
-        String valString;
-        if (sb.toString().length() > 2) {
-            valString = sb.toString().substring(sb.indexOf("=") + 2); //+2 skips the = and the whitespace
-            high_score = Integer.parseInt(valString);
+            //now we have our file. it should be in the format:
+            //"high score = %d"
+            //do string manipulation to acquire the high score
+            //first check if the string is longer than 2. if not,then high score is 0
+            String valString;
+            if (sb.toString().length() > 2) {
+                valString = sb.toString().substring(sb.indexOf("=") + 2); //+2 skips the = and the whitespace
+                high_score = Integer.parseInt(valString);
+            } else
+                high_score = 0;
         }
-        else
-            high_score = 0;
 
         //get resources
         Resources res = getResources();
@@ -91,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         leaderboard.setText(leaderboard_text);
     }
 
-    //see here for reference on what to do with all of these methods
+    //see here for reference on what to do with all of these methods for activity life cycles
     //https://developer.android.com/guide/components/activities/index.html
     //This is a note for myself.
     @Override
@@ -111,18 +120,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        //let's see what happens if I try to write to storage here
-        //store in a local file named mHighScore
-        FileOutputStream fos;
-        try {
-            fos = openFileOutput(filename, MODE_PRIVATE);
-            String writeMe = String.format(Locale.US,"high score = %d",high_score);
-            fos.write(writeMe.getBytes()); //writes the high score into local data
-            fos.close();
-        }
-        catch (IOException e){
-            //caught from write()
-            //catches FileNotFoundException as well
+        //only store data if the player is NOT a guest
+        if (!isGuest) {
+            //store in a local private file
+            FileOutputStream fos;
+            try {
+                fos = openFileOutput(filename, MODE_PRIVATE);
+                String writeMe = String.format(Locale.US, "high score = %d", high_score);
+                fos.write(writeMe.getBytes()); //writes the high score into local data
+                fos.close();
+            } catch (IOException e) {
+                //caught from write()
+                //catches FileNotFoundException as well
+                //don't need to do anything hopefully
+            }
         }
 
     }
@@ -148,9 +159,16 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState); //call super first
 
-        //restore values from saved state
-        session_clicks = savedInstanceState.getInt(LOCAL_SESSION);
-        high_score = savedInstanceState.getInt(LOCAL_HIGH_SCORE);
+        if (!isGuest) {
+            //restore values from saved state
+            session_clicks = savedInstanceState.getInt(LOCAL_SESSION);
+            high_score = savedInstanceState.getInt(LOCAL_HIGH_SCORE);
+        }
+        else {
+            //if guest, nothing is stored
+            session_clicks = 0;
+            high_score = 0;
+        }
     }
 
     //called when the user clicks on the button
