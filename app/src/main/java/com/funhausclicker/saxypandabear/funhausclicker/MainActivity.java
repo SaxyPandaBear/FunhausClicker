@@ -15,18 +15,26 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     //keys for saved instance
-    static final String LOCAL_SESSION = "local_session";
-    static final String LOCAL_HIGH_SCORE = "local_high_score";
+    public static final String LOCAL_SESSION = "local_session";
+    public static final String LOCAL_HIGH_SCORE = "local_high_score";
 
     //only file that is written to by this app
     static final String filename = "funhaus_wins";
 
     //vars used throughout the app defined here for scope
+    static boolean isGuest; //set when the user logs in through login activity
+    boolean hasLogged; //for notification alerts
     int session_clicks; //how many clicks do they have in this session?
     int high_score; //what's the player's high score for clicks?
     TextView leaderboard, current; //initialize outside of onCreate for scope
 
     //TODO: Figure out how to integrate SQL and network connection into this app.
+    //TODO: When network connectivity achieved, add connect to web server button
+    //TODO: add guest functionality - no data storage.
+    //TODO: Add logout button and settings button
+    //TODO: add push notifications
+    // - push after a certain amount of time away from the app?
+    // - push after your high score has been surpassed -> requires network and database access
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
