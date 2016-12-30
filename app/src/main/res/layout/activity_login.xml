@@ -27,16 +27,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
+        <Button style="?android:attr/buttonBarButtonStyle"
             android:text="@string/register"
+            android:onClick="register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:textColor="#ff7f00"
             android:id="@+id/register" />
 
-        <Button
+        <Button style="?android:attr/buttonBarButtonStyle"
             android:text="@string/guest"
+            android:onClick="guestAccess"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -53,6 +55,7 @@
         android:textColor="#ff7f00"
         android:textSize="20sp"
         android:padding="16dp"
+        android:onClick="attemptLogin"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -60,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/password"
+        android:inputType="textPassword"
         android:text="@string/password"
 
         android:layout_alignBottom="@+id/login"
@@ -72,6 +76,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/username"
         android:text="@string/username"
+        android:inputType="text"
         android:layout_above="@+id/password"
         android:layout_centerHorizontal="true" />
 

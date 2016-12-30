@@ -26,15 +26,18 @@ public class MainActivity extends AppCompatActivity {
     boolean hasLogged; //for notification alerts?
     int session_clicks; //how many clicks do they have in this session?
     int high_score; //what's the player's high score for clicks?
-    TextView leaderboard, current; //initialize outside of onCreate for scope
+    TextView leaderboard, current; //declare outside of onCreate for scope
 
     //TODO: Figure out how to integrate SQL and network connection into this app.
     //TODO: When network connectivity achieved, add connect to web server button
+    //note: may just be transition to online leaderboard screen, with option to upload data
+    //note: only accessible if not guest
     //TODO: add guest functionality - no data storage.
     //TODO: Add logout button and settings button
+    //note: will merge log out into settings button
     //TODO: add push notifications
     // - push after a certain amount of time away from the app?
-    // - push after your high score has been surpassed -> requires network and database access
+    // - push after your high score has been surpassed -> network and database access
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
     //called when the user clicks on the button
     //extremely primitive functionality
-    public void buttonClick(View view){
-        session_clicks++;
+    public void play(View view){
+        session_clicks++; //increment local score
 
         Resources res = getResources();
         String current_text = String.format(res.getString(R.string.current), session_clicks);

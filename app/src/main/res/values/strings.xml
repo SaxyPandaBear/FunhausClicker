@@ -6,6 +6,8 @@
     <string name="high_score">Local high score: %1$d</string>
     <string name="button_desc">Button for you to click on</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="settings">Settings</string>
+    <string name="internet">Online Play</string>
 
     <!-- Strings related to login -->
     <string name="banner">The Funhaus Clicker Game</string>
