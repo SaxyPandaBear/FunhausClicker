@@ -20,17 +20,17 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class LoginValidationTests {
     private String user, pass;
-    private List<String> userDatabase = Arrays.asList(new String[]{
+    private List<String> sampleUsers = Arrays.asList(new String[]{
             "foobar","Andrew","Huynh","abc123","Funhaus2014"
-    }); //sample database of users that are already registered.
+    }); // sample database of users that are already registered.
 
-    //constructor
+    // constructor
     public LoginValidationTests(String user, String pass){
         this.user = user;
         this.pass = pass;
     }
 
-    //Data points for data driven test
+    // Data points for data driven test
     // [ Username, Password ]
     @Parameters public static Collection<Object[]> parameters(){
         return Arrays.asList(new Object[][]{
@@ -69,7 +69,7 @@ public class LoginValidationTests {
 
     @Test
     public void uniqueUser(){
-        assertTrue(LoginActivity.uniqueUsername(user,userDatabase));
+        assertTrue(LoginActivity.uniqueUsername(user,sampleUsers));
     }
 
     @Test
