@@ -1,5 +1,6 @@
 package com.funhausclicker.saxypandabear.funhausclicker;
 
+import android.app.DialogFragment;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // name for shared preferences
     public static final String login_info = "login_info";
+    // static final int YES_NO_CALL = 0, CONFIRM_CALL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             // if login credentials as input are not valid, then we display an error
             // and terminate registration attempt.
             // TODO: terminate attempt because of invalid characters used in input
+            DialogFragment dialog = new ConfirmDialog();
         }
 
         // if made it this far in the method, then login credentials are valid.
@@ -128,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 // if they match, just print that the username already exists
                 // TODO: print that username matches and already exists
                 // alert dialog with 1 OKAY button
+                DialogFragment dialog = new ConfirmDialog();
             }
             else{
                 // else, inform the user that there is already a DIFFERENT account on local data,
@@ -135,8 +139,26 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: inform player that an account already exists
                 // TODO: allow player to restart with new account credentials
                 // alert dialog with Yes/No buttons
+                DialogFragment dialog = new YesNoDialog();
+                // send arguments to dialog
+                Bundle args = new Bundle();
+                String title = "Warning!";
+                String message = "Local account already exists. Would you like to overwrite data?";
+                args.putString("title",title);
+                args.putString("message",message);
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(),"account_override");
             }
         }
+    }
+
+    // called by dialog fragment when the user chooses to overwrite their account
+    public void positiveClick(){
+
+    }
+    // called by dialog fragment when the user chooses to not overwrite their account
+    public void negativeClick(){
+
     }
 
     // called from onClick by the login button

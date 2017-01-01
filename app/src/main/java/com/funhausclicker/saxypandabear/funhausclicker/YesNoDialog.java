@@ -1,6 +1,5 @@
 package com.funhausclicker.saxypandabear.funhausclicker;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -8,47 +7,34 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by Andrew on 12/31/2016.
+ * Created by Andrew on 1/1/2017.
  *
- * Fragment used to display alerts with Yes/No operations
+ * Alert dialog that gives user an option of Yes/No in response to an action.
+ * Not cancelable
  */
 
-public class YesNoDialog extends DialogFragment {
-    private String title; // title of the fragment
-    private String message; // message to be displayed
-
-    // empty constructor...?
-    // http://stackoverflow.com/questions/7977392/android-dialogfragment-vs-dialog
-    public YesNoDialog(){}
-
+public final class YesNoDialog extends DialogFragment {
+    // http://stackoverflow.com/questions/25793247/simple-example-of-dialogfragment-example-code-not-working-for-me
+    // http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
+    // https://developer.android.com/reference/android/app/DialogFragment.html#AlertDialog
     @Override
     public Dialog onCreateDialog(Bundle savedInstance){
-        Bundle args = getArguments();
-        String title = args.getString("title", "");
-        String message = args.getString("message","");
-
         return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
-                {
+                .setTitle("Warning!")
+                .setCancelable(false)
+                .setMessage("Local account already exists. Overwrite?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);
+                    public void onClick(DialogInterface dialog, int which){
+                        ((LoginActivity)getActivity()).positiveClick();
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
-                {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((LoginActivity)getActivity()).negativeClick();
                     }
                 })
                 .create();
-
     }
-
-
 }
