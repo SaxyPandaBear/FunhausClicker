@@ -1,6 +1,8 @@
 package com.funhausclicker.saxypandabear.funhausclicker;
 
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     // vars used throughout the app defined here for scope
     static boolean isGuest; // set when the user logs in through login activity
-    boolean hasLogged; // for notification alerts?
+    // boolean hasLogged; // for notification alerts?
     int session_clicks; // how many clicks do they have in this session?
     int high_score; // what's the player's high score for clicks?
     TextView leaderboard, current; // declare outside of onCreate for scope
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // called when the user clicks on the button
+    // called when the user clicks on the main play button
     // extremely primitive functionality
     public void play(View view){
         session_clicks++; // increment local score
@@ -186,5 +188,26 @@ public class MainActivity extends AppCompatActivity {
             String leaderboard_text = String.format(res.getString(R.string.high_score), high_score);
             leaderboard.setText(leaderboard_text);
         }
+    }
+
+    // called when the user chooses to log out
+    public void logout(View view){
+        // go back to login activity
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    // called when the user wants to access settings
+    // for now, just a placeholder
+    // TODO: fully implement settings function
+    public void settings(){
+        DialogFragment dialog = new ConfirmDialog();
+        Bundle args = new Bundle();
+        String title = "Error";
+        String message = "Not supported currently";
+        args.putString("title", title);
+        args.putString("message", message);
+        dialog.setArguments(args);
+        dialog.show(getFragmentManager(), "settings");
     }
 }

@@ -29,6 +29,35 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <LinearLayout
+        android:id="@+id/wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/main_settings"
+            android:onClick="settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:textColor="#ff7f00"
+            android:id="@+id/main_settings" />
+
+        <Button style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/logout"
+            android:onClick="logout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:textColor="#ff7f00"
+            android:id="@+id/logout" />
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

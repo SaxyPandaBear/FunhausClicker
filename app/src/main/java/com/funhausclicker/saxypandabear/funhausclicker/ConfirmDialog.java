@@ -24,7 +24,12 @@ public final class ConfirmDialog extends DialogFragment {
                 .setTitle(title)
                 .setCancelable(true)
                 .setMessage(message)
-                .setNeutralButton("Okay", null)
+                .setNeutralButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dismiss(); // close the fragment.
+                    }
+                })
                 .create();
     }
 }

@@ -1,10 +1,9 @@
 package com.funhausclicker.saxypandabear.funhausclicker;
 
 import android.app.DialogFragment;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-// TODO: incorporate "guest" functionality
+// TODO: add sound to when the user logs in successfully
 // TODO: popup in app for user when choosing guest - details things mentioned below
 // TODO: use alert dialog
 //  ** this would mean:
@@ -46,20 +45,30 @@ public class LoginActivity extends AppCompatActivity {
         // let the user log in.
         e1 = (EditText)findViewById(R.id.username); // user
         e2 = (EditText)findViewById(R.id.password); // pass
-
-
     }
 
+    // click listener that triggers guestAccess if the positive button is clicked
+    public void guestAccessClick(){
+        // Yes/No dialog
+        // yes = continue to main
+        // no = terminate
+        DialogFragment dialog = new GuestAccessDialog();
+        dialog.show(getFragmentManager(),"guest_access");
+    }
     // called when the user chooses to log in as a guest.
     public void guestAccess(View view){
         MainActivity.isGuest = true;
-        // TODO: transition to main activity
+        Intent intent = new Intent(this, MainActivity.class);
+        // note: no username or password sent to main activity because this is guest access
+        //       only.
+        startActivity(intent);
     }
 
     // called when the user chooses to register their account
     // FILE FORMAT
     // user ____
     // pass ____
+    //
     // example:
     //     user foo
     //     pass bar
@@ -73,6 +82,13 @@ public class LoginActivity extends AppCompatActivity {
             // and terminate registration attempt.
             // TODO: terminate attempt because of invalid characters used in input
             DialogFragment dialog = new ConfirmDialog();
+            Bundle args = new Bundle();
+            String title = "Invalid Characters";
+            String message = "Invalid character detected. Only letters and numbers are allowed";
+            args.putString("title", title);
+            args.putString("message", message);
+            dialog.setArguments(args);
+            dialog.show(getFragmentManager(),"invalid_char");
         }
 
         // if made it this far in the method, then login credentials are valid.
@@ -132,6 +148,13 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: print that username matches and already exists
                 // alert dialog with 1 OKAY button
                 DialogFragment dialog = new ConfirmDialog();
+                Bundle args = new Bundle();
+                String title = "Username Taken";
+                String message = String.format(Locale.US,"The username %s has already been taken.",e1.getText().toString());
+                args.putString("title",title);
+                args.putString("message",message);
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(),"username_taken");
             }
             else{
                 // else, inform the user that there is already a DIFFERENT account on local data,
@@ -139,14 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: inform player that an account already exists
                 // TODO: allow player to restart with new account credentials
                 // alert dialog with Yes/No buttons
-                DialogFragment dialog = new YesNoDialog();
-                // send arguments to dialog
-                Bundle args = new Bundle();
-                String title = "Warning!";
-                String message = "Local account already exists. Would you like to overwrite data?";
-                args.putString("title",title);
-                args.putString("message",message);
-                dialog.setArguments(args);
+                DialogFragment dialog = new OverwriteAccountDailog();
                 dialog.show(getFragmentManager(),"account_override");
             }
         }
@@ -154,15 +170,28 @@ public class LoginActivity extends AppCompatActivity {
 
     // called by dialog fragment when the user chooses to overwrite their account
     public void positiveClick(){
-
-    }
-    // called by dialog fragment when the user chooses to not overwrite their account
-    public void negativeClick(){
-
+        // in this method, write to file because all of the errors have been accounted for before
+        // reaching this method call.
+        FileOutputStream fos;
+        try {
+            fos = openFileOutput(login_info, MODE_PRIVATE);
+            String writeMe = String.format(Locale.US, "user %s\n", e1.getText().toString() ); // user first
+            fos.write(writeMe.getBytes()); // writes the username into local data
+            writeMe = String.format(Locale.US, "pass %s", e2.getText().toString()); // write password
+            fos.write(writeMe.getBytes()); // writes them both into the file before closing
+            fos.close(); // close file
+        } catch (IOException e) {
+            // caught from write()
+            // catches FileNotFoundException as well
+            // don't need to do anything hopefully
+        }
     }
 
     // called from onClick by the login button
     // TODO: add hiding password on screen as it is being typed out
+    // keys for putting username and password into intent
+    private final static String USERNAME = "USERNAME";
+    private final static String PASSWORD = "PASSWORD";
     public void attemptLogin(View view){
         String inputUsername = e1.getText().toString();
         String inputPassword = e2.getText().toString();
@@ -177,10 +206,39 @@ public class LoginActivity extends AppCompatActivity {
                 MainActivity.isGuest = false;
 
                 // TODO: transition to main activity
+                // https://developer.android.com/training/basics/firstapp/starting-activity.html
+                // Use an intent to move to the main activity
+                Intent intent = new Intent(this, MainActivity.class);
+                // send username and password to main
+                intent.putExtra(USERNAME, inputUsername); // at this point, user and pass
+                intent.putExtra(PASSWORD, inputPassword); // have been validated by checks
+                startActivity(intent);
+            }
+            else {
+                // if invalid login, but valid input for user and pass, give login error
+                // and terminate the login attempt
+                DialogFragment dialog = new ConfirmDialog();
+                Bundle args = new Bundle();
+                String title = "Login Failure";
+                String message = "Username and/or password do not match account on file"; // the message that is the bane of my existence.
+                args.putString("title", title);
+                args.putString("message", message);
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(),"incorrect_login");
             }
         }
         // if unsuccessful, let the user try again.
         // TODO: error message and handling when invalid login
+        else {
+            DialogFragment dialog = new ConfirmDialog();
+            Bundle args = new Bundle();
+            String title = "Invalid Characters";
+            String message = "Invalid character detected. Only letters and numbers are allowed";
+            args.putString("title", title);
+            args.putString("message", message);
+            dialog.setArguments(args);
+            dialog.show(getFragmentManager(),"invalid_char");
+        }
     }
 
     // Either a valid match of password and username,
@@ -188,11 +246,39 @@ public class LoginActivity extends AppCompatActivity {
     // if so, it will be valid. write to the file now
     private boolean validLogin(String inputUser, String inputPass){
         // check inputs for validity. if not valid, no point in executing the rest of the code
-        String readUser = "", readPass = "";
         // TODO: read from storage what saved username and password are
         // TODO: handle no stored file for user and pass by creating new file
         // TODO: in case of no file, give user option to play as guest or register
+        StringBuilder sb = new StringBuilder(); // to accept input from reading file
+        try {
+            // attempt to open local storage of our saved high score
+            FileInputStream fis = openFileInput(login_info);
+            int c;
+            while ((c = fis.read()) != -1) {
+                // read until -1, which indicates EOF
+                sb.append(Character.toString((char) c));
+            }
+            fis.close(); // close after we read everything
+        } catch (FileNotFoundException e) {
+            // if no file is found, then we have to return false because there is no saved account
+            // on file to use.
+            return false;
+        }
+        catch (IOException e) {
+            // If there is an IOException that is not a FNFE, then display an error and return false.
+            DialogFragment dialog = new ConfirmDialog();
+            Bundle args = new Bundle();
+            String title = "File Error";
+            String message = "Oops! Something bad happened while authenticating. Please try again.";
+            args.putString("title", title);
+            args.putString("message", message);
+            dialog.show(getFragmentManager(), "IOException");
+            return false;
+        }
 
+        // if no exceptions occurred, parse the file to get the username and password on file
+        String readUser = sb.toString().substring(5, sb.toString().indexOf('\n')); // gets the username
+        String readPass = sb.toString().substring(sb.toString().indexOf('\n')+6); // skips "\npass "
         return inputUser.equals(readUser) && inputPass.equals(readPass);
     }
 
@@ -229,7 +315,7 @@ public class LoginActivity extends AppCompatActivity {
     // only restriction on a username FOR NOW is that the string is at least 4 chars long
     // TODO: implement unique username acquisition
     // TODO: replace dummy array with actual list of used namespaces
-    private final static ArrayList<String> dummyUsernames = new ArrayList<>();
+    private final static List<String> dummyUsernames = new ArrayList<>();
     // ignore case
     public static boolean validUsername(String username){
         if (noInvalidChar(username)){

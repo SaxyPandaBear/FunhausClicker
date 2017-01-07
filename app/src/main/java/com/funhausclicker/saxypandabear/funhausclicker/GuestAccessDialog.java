@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by Andrew on 1/1/2017.
+ * Created by Andrew on 1/7/2017.
  *
- * Alert dialog that gives user an option of Yes/No in response to an action.
- * Not cancelable
+ * used when the user attempts to login as a guest only
+ * informs the user that guest access does not allow for saved data
  */
 
-public final class YesNoDialog extends DialogFragment {
+public class GuestAccessDialog extends DialogFragment {
     // http://stackoverflow.com/questions/25793247/simple-example-of-dialogfragment-example-code-not-working-for-me
     // http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
     // https://developer.android.com/reference/android/app/DialogFragment.html#AlertDialog
@@ -22,17 +22,18 @@ public final class YesNoDialog extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Warning!")
                 .setCancelable(false)
-                .setMessage("Local account already exists. Overwrite?")
+                .setMessage("Playing as a guest does not save your high score. Are you sure that you want to continue?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        ((LoginActivity)getActivity()).positiveClick();
+                        ((LoginActivity)getActivity()).guestAccess();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((LoginActivity)getActivity()).negativeClick();
+                        // on click for this dialog, it will close this fragment.
+                        dismiss(); // dismiss the fragment
                     }
                 })
                 .create();
