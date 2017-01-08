@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // click listener that informs the user of what playing as a guest entails
     // and allows the user to proceed or decline
-    public void guestAccessClick(){
+    public void guestAccessClick(View view){
         // Yes/No dialog
         // yes = continue to main
         // no = terminate

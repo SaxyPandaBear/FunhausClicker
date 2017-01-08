@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     // listener for when the user clicks on the logout button
-    public void logoutListener(){
+    public void logoutListener(View view){
         // informs the user that they are attempting to logout
         // creates a logout dialog
         DialogFragment dialog = new LogoutDialog();
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     // called when the user wants to access settings
     // for now, just a placeholder
     // TODO: fully implement settings function
-    public void settings(){
+    public void settings(View view){
         DialogFragment dialog = new ConfirmDialog();
         Bundle args = new Bundle();
         String title = "Error";
