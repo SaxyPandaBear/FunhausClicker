@@ -49,7 +49,7 @@
 
         <Button style="?android:attr/buttonBarButtonStyle"
             android:text="@string/logout"
-            android:onClick="logout"
+            android:onClick="logoutListener"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"

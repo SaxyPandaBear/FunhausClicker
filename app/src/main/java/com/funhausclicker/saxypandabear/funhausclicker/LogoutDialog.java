@@ -5,29 +5,25 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 
 /**
- * Created by Andrew on 1/7/2017.
+ * Created by Andrew on 1/8/2017.
  *
- * used when the user attempts to login as a guest only
- * informs the user that guest access does not allow for saved data
+ * confirms that the user wants to log out of their account
+ * Yes/No style of dialog fragment
  */
 
-public class GuestAccessDialog extends DialogFragment {
-    // http://stackoverflow.com/questions/25793247/simple-example-of-dialogfragment-example-code-not-working-for-me
-    // http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
-    // https://developer.android.com/reference/android/app/DialogFragment.html#AlertDialog
+public class LogoutDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstance){
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Warning!")
+                .setTitle("Log Out?")
                 .setCancelable(false)
-                .setMessage("Playing as a guest does not save your high score. Are you sure that you want to continue?")
+                .setMessage("Are you sure that you want to log out of your account?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        ((LoginActivity)getActivity()).guestPositiveClick();
+                        ((MainActivity)getActivity()).logoutPositiveClick();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

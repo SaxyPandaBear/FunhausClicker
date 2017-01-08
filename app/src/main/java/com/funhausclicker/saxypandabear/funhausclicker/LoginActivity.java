@@ -47,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         e2 = (EditText)findViewById(R.id.password); // pass
     }
 
-    // click listener that triggers guestAccess if the positive button is clicked
+    // click listener that informs the user of what playing as a guest entails
+    // and allows the user to proceed or decline
     public void guestAccessClick(){
         // Yes/No dialog
         // yes = continue to main
@@ -55,7 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         DialogFragment dialog = new GuestAccessDialog();
         dialog.show(getFragmentManager(),"guest_access");
     }
-    // called when the user chooses to log in as a guest.
+    // listener for after the player chooses to click on guest login the first time
+    // triggers guest access method which takes the user to main activity
+    public void guestPositiveClick(){
+        guestAccess(new View(getApplicationContext()));
+    }
+    // called when the user confirms their choice to log in as a guest.
     public void guestAccess(View view){
         MainActivity.isGuest = true;
         Intent intent = new Intent(this, MainActivity.class);

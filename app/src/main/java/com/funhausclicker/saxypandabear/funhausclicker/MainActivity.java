@@ -196,6 +196,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+    // listener for when the user clicks on the logout button
+    public void logoutListener(){
+        // informs the user that they are attempting to logout
+        // creates a logout dialog
+        DialogFragment dialog = new LogoutDialog();
+        dialog.show(getFragmentManager(), "logout");
+    }
+    // called when the user confirms that they want to log out.
+    // triggers logout method
+    public void logoutPositiveClick(){
+        logout(new View(getApplicationContext()));
+    }
 
     // called when the user wants to access settings
     // for now, just a placeholder
