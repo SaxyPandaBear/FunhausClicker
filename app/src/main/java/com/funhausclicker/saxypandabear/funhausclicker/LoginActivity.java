@@ -196,8 +196,8 @@ public class LoginActivity extends AppCompatActivity {
     // called from onClick by the login button
     // TODO: add hiding password on screen as it is being typed out
     // keys for putting username and password into intent
-    private final static String USERNAME = "USERNAME";
-    private final static String PASSWORD = "PASSWORD";
+    public final static String USERNAME = "USERNAME";
+    public final static String PASSWORD = "PASSWORD";
     public void attemptLogin(View view){
         String inputUsername = e1.getText().toString();
         String inputPassword = e2.getText().toString();

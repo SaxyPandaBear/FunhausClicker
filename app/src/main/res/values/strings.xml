@@ -24,4 +24,7 @@
     <string name="local_exists">Local account already exists. Overwrite?</string>
     <string name="invalid_chars">Invalid character used. Only letters and numbers are allowed.</string>
     <string name="non_unique_user">Username already taken!</string>
+
+    <!-- Settings strings -->
+    <string name="delete_data">Delete Saved Data</string>
 </resources>

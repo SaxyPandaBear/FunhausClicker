@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 // TODO: add toggle buttons for settings
 // TODO: add button for deleting account
+// TODO: really everything.
 
 public class SettingsActivity extends AppCompatActivity {
 

@@ -20,26 +20,27 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOCAL_SESSION = "local_session";
     public static final String LOCAL_HIGH_SCORE = "local_high_score";
 
-    // only file that is written to by this app
+    // data that is written by this activity goes to the file name below
     static final String filename = "funhaus_wins";
 
-    // vars used throughout the app defined here for scope
-    static boolean isGuest; // set when the user logs in through login activity
+    // vars used throughout the main activity defined here for scope
+    static boolean isGuest; // set when the user logs in through login activity <-- accessed outside of this class
     // boolean hasLogged; // for notification alerts?
     int session_clicks; // how many clicks do they have in this session?
     int high_score; // what's the player's high score for clicks?
+    String username, password;
     TextView leaderboard, current; // declare outside of onCreate for scope
 
     // TODO: Figure out how to integrate SQL and network connection into this app.
     // TODO: When network connectivity achieved, add connect to web server button
     // note: may just be transition to online leaderboard screen, with option to upload data
     // note: only accessible if not guest
-    // TODO: add guest functionality - no data storage.
-    // TODO: Add logout button and settings button
     // note: will merge log out into settings button
     // TODO: add push notifications
     //  - push after a certain amount of time away from the app?
-    //  - push after your high score has been surpassed -> network and database access
+    //  - push after your high score has been surpassed (the first time) -> network and database access
+    // TODO: add a store for microtransactions
+    // TODO: in app billing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             // set values and move on.
             high_score = 0;
             session_clicks = 0;
+            username = ""; password = ""; // username and password not used in guest function
+            // Make sure that all other functions that use username and password check
+            // if(isGuest) evaluates as true before continuing.
         }
         else{
 
@@ -60,10 +64,26 @@ public class MainActivity extends AppCompatActivity {
                 // restore values saved earlier
                 session_clicks = savedInstanceState.getInt(LOCAL_SESSION);
                 high_score = savedInstanceState.getInt(LOCAL_HIGH_SCORE);
+
+                // if saved instance NOT equal to null, then we get user and pass in this manner
+                username = savedInstanceState.getString(LoginActivity.USERNAME, ""); // default empty string
+                password = savedInstanceState.getString(LoginActivity.PASSWORD, ""); // default empty string
             } else {
                 // initialize our session
                 session_clicks = 0; // starts our game at score = 0
+
+                // if no saved instance, then retrieved this way
+                Bundle extras = getIntent().getExtras();
+                if (extras == null) {
+                    // default values
+                    username = ""; password = "";
+                }
+                else {
+                    username = extras.getString(LoginActivity.USERNAME, "");
+                    password = extras.getString(LoginActivity.PASSWORD, "");
+                }
             }
+            // read in local scores from file
             StringBuilder sb = new StringBuilder(); // to accept input from reading file
             try {
                 // attempt to open local storage of our saved high score
@@ -210,16 +230,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // called when the user wants to access settings
-    // for now, just a placeholder
-    // TODO: fully implement settings function
+    // transitions to settings activity
     public void settings(View view){
-        DialogFragment dialog = new ConfirmDialog();
-        Bundle args = new Bundle();
-        String title = "Error";
-        String message = "Not supported currently";
-        args.putString("title", title);
-        args.putString("message", message);
-        dialog.setArguments(args);
-        dialog.show(getFragmentManager(), "settings");
+        // no need to putExtra() so far
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

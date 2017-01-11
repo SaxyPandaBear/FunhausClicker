@@ -10,4 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.funhausclicker.saxypandabear.funhausclicker.SettingsActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="@string/delete_data"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>
