@@ -27,4 +27,5 @@
 
     <!-- Settings strings -->
     <string name="delete_data">Delete Saved Data</string>
+    <string name="back_button">Back to Game</string>
 </resources>

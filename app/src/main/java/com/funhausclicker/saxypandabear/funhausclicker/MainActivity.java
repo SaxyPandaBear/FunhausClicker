@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     // note: may just be transition to online leaderboard screen, with option to upload data
     // note: only accessible if not guest
     // note: will merge log out into settings button
+    // TODO: when SQL and connectivity achieved, create a widget that displays top scores
     // TODO: add push notifications
     //  - push after a certain amount of time away from the app?
     //  - push after your high score has been surpassed (the first time) -> network and database access
