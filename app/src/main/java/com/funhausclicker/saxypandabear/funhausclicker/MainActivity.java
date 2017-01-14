@@ -144,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed(){
+        // pressing the back button triggers the logout function.
+        logoutListener(); // launches the logout alert dialog
+    }
+    @Override
     protected void onStop(){
         super.onStop();
         // only store data if the player is NOT a guest
@@ -218,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     // listener for when the user clicks on the logout button
-    public void logoutListener(View view){
+    public void logoutListener(){
         // informs the user that they are attempting to logout
         // creates a logout dialog
         DialogFragment dialog = new LogoutDialog();
