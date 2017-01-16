@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             args.putString("message", message);
             dialog.setArguments(args);
             dialog.show(getFragmentManager(),"invalid_char");
+            return;
         }
 
         // if made it this far in the method, then login credentials are valid.
