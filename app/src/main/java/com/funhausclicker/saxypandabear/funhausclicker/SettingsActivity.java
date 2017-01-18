@@ -6,17 +6,39 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 // TODO: add toggle buttons for settings
 // TODO: add button for deleting account
 // TODO: really everything.
 
 public class SettingsActivity extends AppCompatActivity {
+    private static boolean onlineMode; // true means online play, false means not.
+
+    ToggleButton toggleOnline; // toggle button for online mode
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        // create listener for toggle button
+        toggleOnline = (ToggleButton)findViewById(R.id.toggleOnline);
+        toggleOnline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                if(isChecked){
+                    // toggle is enabled.
+                    // online mode set to true
+                    onlineMode = true;
+                }
+                else{
+                    // toggle is disabled.
+                    // online mode set to false
+                    onlineMode = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -44,8 +66,14 @@ public class SettingsActivity extends AppCompatActivity {
         deleteData(new View(getApplicationContext()));
     }
 
+    // TODO: delete private files
     // method called when the user confirms that they want to delete their saved data
     public void deleteData(View view){
-        
+
     }
+
+    // public accessor and mutator methods for toggleOnline
+    public static boolean isOnline() {return onlineMode;}
+    public static void setOnlineMode(boolean val) { onlineMode = val; }
+
 }

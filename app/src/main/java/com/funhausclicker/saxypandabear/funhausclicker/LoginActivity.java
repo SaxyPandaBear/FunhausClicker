@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     // called when the user confirms their choice to log in as a guest.
     public void guestAccess(View view){
-        MainActivity.isGuest = true;
+        MainActivity.setIsGuest(true);
         Intent intent = new Intent(this, MainActivity.class);
         // note: no username or password sent to main activity because this is guest access
         //       only.
@@ -210,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
             if (validLogin(inputUsername, inputPassword)) {
                 // if login is successful, set isGuest in main to false
                 // and transition to main
-                MainActivity.isGuest = false;
+                MainActivity.setIsGuest(false);
 
                 // TODO: transition to main activity
                 // https://developer.android.com/training/basics/firstapp/starting-activity.html

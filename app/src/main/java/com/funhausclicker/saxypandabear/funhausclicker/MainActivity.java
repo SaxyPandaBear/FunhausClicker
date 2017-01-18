@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     static final String filename = "funhaus_wins";
 
     // vars used throughout the main activity defined here for scope
-    static boolean isGuest; // set when the user logs in through login activity <-- accessed outside of this class
+    private static boolean isGuest; // set when the user logs in through login activity <-- accessed outside of this class
     // boolean hasLogged; // for notification alerts?
     int session_clicks; // how many clicks do they have in this session?
     int high_score; // what's the player's high score for clicks?
@@ -242,4 +242,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
+
+    // public accessor and mutator methods for isGuest
+    public static boolean isGuest() {return isGuest;}
+    public static void setIsGuest(boolean val){ isGuest = val;}
 }

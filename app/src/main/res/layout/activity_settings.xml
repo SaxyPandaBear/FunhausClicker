@@ -12,15 +12,42 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back_button"
-        android:onClick="back"/>
-
-    <Button
-        android:layout_width="wrap_content"
         android:text="@string/delete_data"
         android:onClick="deleteDataListener"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:id="@+id/wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0"
+        android:layout_below="@+id/back_button"
+        android:layout_alignParentStart="true">
+
+        <Button style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/online"
+            android:textAlignment="viewStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/dummyButton" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".0"
+            android:id="@+id/toggleOnline" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_button"
+        android:onClick="back"
+        android:id="@+id/back_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
