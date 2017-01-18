@@ -28,5 +28,7 @@
     <!-- Settings strings -->
     <string name="delete_data">Delete Saved Data</string>
     <string name="back_button">Back to Game</string>
-    <string name="online">Online Mode</string>
+    <string name="online">Online Mode (click for info)</string>
+    <string name="volumeText">Volume: %1$d</string>
+    <string name="rateMe">Rate the app</string>
 </resources>

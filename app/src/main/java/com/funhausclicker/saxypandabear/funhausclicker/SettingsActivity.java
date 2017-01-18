@@ -7,16 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import java.util.Locale;
 
 // TODO: add toggle buttons for settings
 // TODO: add button for deleting account
 // TODO: really everything.
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener{
     private static boolean onlineMode; // true means online play, false means not.
 
-    ToggleButton toggleOnline; // toggle button for online mode
+    private ToggleButton toggleOnline; // toggle button for online mode
+    private SeekBar volumeControl; // volume control seekbar used in settings activity
+    private TextView volumeText; // text that displays current app volume
+    private int volume; // volume value set by seekbar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +46,47 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        volumeControl = (SeekBar)findViewById(R.id.volumeControl);
+        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                // update the value of volume with i
+                volume = i;
+                volumeText = (TextView)findViewById(R.id.volumeText);
+                volumeText.setText(String.format(Locale.ENGLISH,"Volume :: %d", volume));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // leave as is
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // leave as is
+            }
+        });
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b){
+        if (seekBar == volumeControl){
+            // copy from onCreate
+            // update the value of volume with i
+            volume = i;
+            volumeText = (TextView)findViewById(R.id.volumeText);
+            volumeText.setText(String.format(Locale.ENGLISH,"Volume :: %d", volume));
+        }
+    }
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar){
+        // don't know what to do here
+    }
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar){
+        // don't know what to do here
+    }
     @Override
     public void onBackPressed(){
         // listener for android back button hardware
@@ -72,6 +118,23 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    // displays a confirm dialog that tells the user what online mode does
+    public void onlineInfo(View view){
+        DialogFragment dialog = new ConfirmDialog();
+        Bundle args = new Bundle();
+        String title = "Online Mode Info";
+        String message = "Online mode allows you to upload your score and compare it with the rest of the online users.";
+        args.putString("title",title);
+        args.putString("message",message);
+        dialog.setArguments(args);
+        dialog.show(getFragmentManager(),"onlineInfo");
+    }
+
+    // method called when the user wants to rate the app.
+    // takes the user to the google play store to rate.
+    public void rateApp(View view){
+
+    }
     // public accessor and mutator methods for toggleOnline
     public static boolean isOnline() {return onlineMode;}
     public static void setOnlineMode(boolean val) { onlineMode = val; }

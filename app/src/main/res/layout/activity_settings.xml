@@ -10,20 +10,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.funhausclicker.saxypandabear.funhausclicker.SettingsActivity">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/top_bar"
+        android:layout_alignParentStart="true"
+        android:weightSum="1.0"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:text="@string/back_button"
+            android:onClick="back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:id="@+id/back_button" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/rateMe"
+            android:onClick="rateApp"
+            android:id="@+id/rateButton"/>
+
+    </LinearLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:text="@string/delete_data"
+        android:id="@+id/deleteData"
         android:onClick="deleteDataListener"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"/>
 
     <LinearLayout
-        android:id="@+id/wrapper"
+        android:id="@+id/online_wrapper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="1.0"
-        android:layout_below="@+id/back_button"
+        android:layout_below="@+id/top_bar"
         android:layout_alignParentStart="true">
 
         <Button style="?android:attr/buttonBarButtonStyle"
@@ -32,7 +59,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/dummyButton" />
+            android:onClick="onlineInfo"
+            android:id="@+id/onlineInfo" />
 
         <ToggleButton
             android:layout_width="wrap_content"
@@ -42,12 +70,24 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/back_button"
-        android:onClick="back"
-        android:id="@+id/back_button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:weightSum="1.0"
+        android:id="@+id/volumeBar"
+        android:layout_below="@+id/online_wrapper"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/volumeText"
+            android:textSize="20sp"/>
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/volumeText"
+            android:id="@+id/volumeControl"
+            android:max="100"/>
+    </RelativeLayout>
 </RelativeLayout>

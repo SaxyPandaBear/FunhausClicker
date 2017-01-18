@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     //  - push after your high score has been surpassed (the first time) -> network and database access
     // TODO: add a store for microtransactions
     // TODO: in app billing
+    // TODO: background music while game is being played
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
