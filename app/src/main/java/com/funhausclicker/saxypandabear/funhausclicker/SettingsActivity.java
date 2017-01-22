@@ -20,6 +20,7 @@ import java.util.Locale;
 public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener{
     private static boolean onlineMode; // true means online play, false means not.
 
+    private String username, password; // username and password passed in by main activity
     private ToggleButton toggleOnline; // toggle button for online mode
     private SeekBar volumeControl; // volume control seekbar used in settings activity
     private TextView volumeText; // text that displays current app volume
@@ -37,15 +38,27 @@ public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSee
                 if(isChecked){
                     // toggle is enabled.
                     // online mode set to true
-                    onlineMode = true;
+                    setOnlineMode(true);
                 }
                 else{
                     // toggle is disabled.
                     // online mode set to false
-                    onlineMode = false;
+                    setOnlineMode(false);
                 }
             }
         });
+
+        Bundle extras = getIntent().getExtras(); // try to get username and password
+        if (extras == null) {
+            // default values
+            // this shouldn't happen, as far as I know
+            username = ""; password = "";
+        }
+        else {
+            // default empty string values if something goes wrong.
+            username = extras.getString(LoginActivity.USERNAME, "");
+            password = extras.getString(LoginActivity.PASSWORD, "");
+        }
 
         volumeControl = (SeekBar)findViewById(R.id.volumeControl);
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

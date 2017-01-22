@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
     // vars used throughout the main activity defined here for scope
     private static boolean isGuest; // set when the user logs in through login activity <-- accessed outside of this class
     // boolean hasLogged; // for notification alerts?
-    int session_clicks; // how many clicks do they have in this session?
-    int high_score; // what's the player's high score for clicks?
-    String username, password;
-    TextView leaderboard, current; // declare outside of onCreate for scope
+    private int session_clicks; // how many clicks do they have in this session?
+    private int high_score; // what's the player's high score for clicks?
+    private String username, password;
+    private TextView leaderboard, current; // declare outside of onCreate for scope
+    private MediaPlayer mediaPlayer; // media player for game. plays sounds at given intervals
+    private int firstDing = 50, secondDing = 100, thirdDing = 200;
 
     // TODO: Figure out how to integrate SQL and network connection into this app.
     // TODO: When network connectivity achieved, add connect to web server button
@@ -239,8 +242,11 @@ public class MainActivity extends AppCompatActivity {
     // called when the user wants to access settings
     // transitions to settings activity
     public void settings(View view){
-        // no need to putExtra() so far
         Intent intent = new Intent(this, SettingsActivity.class);
+
+        // put username and password
+        intent.putExtra(LoginActivity.USERNAME, username);
+        intent.putExtra(LoginActivity.PASSWORD, password);
         startActivity(intent);
     }
 
